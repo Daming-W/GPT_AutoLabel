@@ -7,4 +7,6 @@ specific package requirements
 ```
 openai==1.50.0
 ```
-about api key : create api_key.txt with a single line of api key string.
+About api key : create api_key.txt with a single line of api key string.
+
+Then we are ready to go.
