@@ -3,10 +3,15 @@
 This repo is deisgned to construct a progressive learning auto-labeling data pipeline for generating supervised multi-task learning annotations.
 
 
-specific package requirements
+1. specific package requirements
 ```
 openai==1.50.0
 ```
-About api key : create api_key.txt with a single line of api key string.
 
-Then we are ready to go.
+2. Set api key : create api_key.txt with a single line of api key string.
+
+3. Then we are ready to go with
+
+```
+python main.py
+```
