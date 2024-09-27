@@ -1,7 +1,7 @@
 import os
 import openai
 from autolabel import label_single, load_api_key, replace_newlines_in_json_string
-from data_reader import read_file
+from data_reader import read_file, write_txt
 from tqdm import tqdm
 import json
 import argparse
@@ -24,23 +24,35 @@ if __name__ == "__main__":
 
     # Argument parser to get command line arguments
     parser = argparse.ArgumentParser(description="Process data.")
-    parser.add_argument('--input_dir', type=str, default='data/demo100.xlsx', 
+
+    parser.add_argument('--input_dir', type=str, default='/Users/damingw/coding/GPT_AutoLabel/data/demo100.csv', 
                         help='Path to the annotations files directory.')
-    parser.add_argument('--output_dir', type=str, default='data/label100.txt', 
+
+    parser.add_argument('--output_dir', type=str, default='/Users/damingw/coding/GPT_AutoLabel/data/label100.txt', 
                         help='Path to the annotations files directory.')
+
     parser.add_argument('--n_process', type=int, default=8, 
                         help='Number of processes to use.')
+
     parser.add_argument('--api_key', type=str, default="api_key.txt",
                         help='API key for OpenAI.')
+
     args = parser.parse_args()
 
     # Load the API key from the specified file
     api_key = load_api_key(args.api_key)
     openai.api_key = api_key  # Set the API key for OpenAI
 
-
+    #read data
     news_list = read_file(args.input_dir, "正文")
     print(f'loaded {len(news_list)}  news data')
 
-    for news in tqdm(news_list):
-        label_single(args, PROMPT_DICT, news)
+    # start working
+    res_list = []
+    for news in tqdm(news_list[:5]):
+        res = label_single(args, PROMPT_DICT, news)
+        res_list.append(res)
+
+    # write in txt
+    write_txt(args.output_dir, res_list)
+    

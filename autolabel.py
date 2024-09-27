@@ -46,7 +46,7 @@ def label_single(args, prompt_dict, txt):
     # Process and print the result
     result = hat_completion.choices[0]["message"]["content"]
     print(f'INPUT NEWS : {txt} \n OUTPUT LABEL : {result.strip()}')
-
+    return result.strip()
 
 if __name__ == "__main__":
     print("start testing")
