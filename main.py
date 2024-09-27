@@ -43,7 +43,7 @@ if __name__ == "__main__":
     api_key = load_api_key(args.api_key)
     openai.api_key = api_key  # Set the API key for OpenAI
 
-    #read data
+    # read data
     news_list = read_file(args.input_dir, "正文")
     print(f'loaded {len(news_list)}  news data')
 

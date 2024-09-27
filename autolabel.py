@@ -7,13 +7,14 @@ PROMPT_DICT = {
     "role": " You are an advanced data analyst with extensive knowledge of finance and a deep understanding of market dynamics. \
                 You are able to analyze news content and assess its potential impact on the market.",
     "task": " Based on the provided news content, analyze the overall tone and content of the news and determine its sentiment toward the market. \
-                Your task is to assign a label to the news based on its text: \
+                Your task is to assign a label to the news based on its text without any reasoning: \
                 0 indicates the news has a negative impact on the market. \
                 1 indicates the news is neutral or positive for the market. \
                 -1 indicates the news is ambiguous or unclear, and its impact on the market cannot be determined.",
+    "CoT": "xxx",
     "samples": "Here are a few samples for you to understand and imitate: \
-                [CLS]每经AI快讯，3月22日，上海钢联(300226)发布数据显示，今日电池级碳酸锂价格较上次持平，均价报11.35万元/吨。[SEP], Label : 0 \
-                [CLS]（原标题：“天价锂矿”二度拍卖：首轮5人报名，22分钟达到4亿封顶价）证券时报网讯，25日早间，四川雅江斯诺威矿业54.2857%股权拍卖10时正式开始，“天价锂矿”争夺战再度拉开帷幕。[SEP], Label : 1."
+                [CLS]每经AI快讯，3月22日，上海钢联(300226)发布数据显示，今日电池级碳酸锂价格较上次持平，均价报11.35万元/吨。[SEP],  0 \
+                [CLS]（原标题：“天价锂矿”二度拍卖：首轮5人报名，22分钟达到4亿封顶价）证券时报网讯，25日早间，四川雅江斯诺威矿业54.2857%股权拍卖10时正式开始，“天价锂矿”争夺战再度拉开帷幕。[SEP],  1"
 }
     
 # Function to read API key from a text file
@@ -38,11 +39,10 @@ def label_single(args, prompt_dict, txt):
             {"role": "system", "content": prompt_dict["role"]},
             {"role": "user", "content": prompt},
         ],
-        temperature=0.9,
-        top_p=0.7,
-        max_tokens=2000
+        temperature=0.0, #bias
+        top_p=0.7, 
+        max_tokens=20
     )
-
     # Process and print the result
     result = hat_completion.choices[0]["message"]["content"]
     print(f'INPUT NEWS : {txt} \n OUTPUT LABEL : {result.strip()}')
@@ -68,4 +68,4 @@ if __name__ == "__main__":
     openai.api_key = api_key  # Set the API key for OpenAI
 
     # Call the function to label the input text
-    label_single(args, PROMPT_DICT, '明日大跌！')
+    label_single(args, PROMPT_DICT, "明日大涨！！！")
